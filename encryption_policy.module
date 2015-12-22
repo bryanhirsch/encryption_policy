@@ -1,0 +1,33 @@
+<?php
+
+/**
+ * @file
+ * Contains encryption_policy.module..
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function encryption_policy_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the encryption_policy module.
+    case 'help.page.encryption_policy':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Define and enforce encryption standards for your website.') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function encryption_policy_theme() {
+  $theme = [];
+
+  return $theme;
+}
