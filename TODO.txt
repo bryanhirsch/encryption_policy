@@ -1,5 +1,5 @@
 
-[ ] Get a link to here:
+[x] Get a link to here:
       /admin/config/security/encryption-policy
     To appear here:
       /admin/config/security

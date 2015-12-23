@@ -1,0 +1,5 @@
+encryption_policy.admin:
+  title: 'Encryption Policy'
+  description: 'Create encryption policies'
+  parent: password_policy.admin_index
+  route_name: encryption_policy.settings
