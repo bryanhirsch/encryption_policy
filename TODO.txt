@@ -1,0 +1,20 @@
+
+[ ] Get a link to here:
+      /admin/config/security/encryption-policy
+    To appear here:
+      /admin/config/security
+
+[ ] Hook into user login to text and reject login
+
+[ ] Attach JavaScript to user login form
+[ ] Add JavaScript-side test at login time, takeover form to prevent login if browser doesn't provide required encryption
+[ ] Provide admin-defined takeover message in login block
+[ ] Disable login form fields via form alter
+
+[ ] Add /encryption-policy page with documentation of policy and info to user about their browser
+
+[ ] Behat tests
+[ ] SimpleTest tests
+[ ] PHPUnit tests
+
+[ ] Revisit @TODO notes and update with user-facing language
