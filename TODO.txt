@@ -5,12 +5,28 @@
       /admin/config/security
 [/] If password_policy module is not enabled, /admin/config/security will not
     be available. Figure out how to handle this.
-[ ] @TODO: Rather than be dependent on password_policy, now this module provides
-    /admin/config/security. The catch is, now there are two "Security" boxes
-    at /admin/config when both modules are enabled and NEITHER module is able
-    to provide links on the other's /admin/config/security page. There must
-    be a better way. But I haven't found an equivalent to hook_menu_alter in D8
-    so far.
+[ ] @TODO: Try using a RouteSubscriber to solve the problem described below:
+    https://www.previousnext.com.au/blog/dynamic-routes-drupal-8-routesubscriber
+
+    Or route_callbacks:
+    https://www.drupal.org/node/2145041
+    see Devel example: \Drupal\devel_generate\Routing\DevelGenerateRoutes::routes
+
+    Approach A:
+      If password_policy is not installed, we provide the route for admin/config/security.
+      If password_polich *is* installed, use RouteSubscriber to turn off ours and enable theirs.
+
+    Approach B:
+      Only provide admin/config/security via a RouteSubscriber when nobody else provides it.
+      Otherwise, attach ourself to whoever provides this. (This seems better. Not sure how to do it.)
+    
+    Problem:
+	    Rather than be dependent on password_policy, now this module provides
+	    /admin/config/security. The catch is, now there are two "Security" boxes
+	    at /admin/config when both modules are enabled and NEITHER module is able
+	    to provide links on the other's /admin/config/security page. There must
+	    be a better way. But I haven't found an equivalent to hook_menu_alter in D8
+	    so far.
 
 [ ] Hook into user login to text and reject login
 
