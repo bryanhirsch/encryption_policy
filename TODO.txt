@@ -3,6 +3,8 @@
       /admin/config/security/encryption-policy
     To appear here:
       /admin/config/security
+[ ] If password_policy module is not enabled, /admin/config/security will not
+    be available. Figure out how to handle this.
 
 [ ] Hook into user login to text and reject login
 
