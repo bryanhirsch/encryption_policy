@@ -3,8 +3,14 @@
       /admin/config/security/encryption-policy
     To appear here:
       /admin/config/security
-[ ] If password_policy module is not enabled, /admin/config/security will not
+[/] If password_policy module is not enabled, /admin/config/security will not
     be available. Figure out how to handle this.
+[ ] @TODO: Rather than be dependent on password_policy, now this module provides
+    /admin/config/security. The catch is, now there are two "Security" boxes
+    at /admin/config when both modules are enabled and NEITHER module is able
+    to provide links on the other's /admin/config/security page. There must
+    be a better way. But I haven't found an equivalent to hook_menu_alter in D8
+    so far.
 
 [ ] Hook into user login to text and reject login
 
