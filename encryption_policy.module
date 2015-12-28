@@ -31,3 +31,13 @@ function encryption_policy_theme() {
 
   return $theme;
 }
+
+/**
+ * Implements hook_menu_links_discovered_alter.
+ */
+function encryption_policy_menu_links_discovered_alter(&$links) {
+  // If password_policy module exists, consolidate admin links under a single Security grouping.
+  if (\Drupal::moduleHandler()->moduleExists('password_policy')) {
+    $links['encryption_policy.admin']['parent'] = 'password_policy.admin_index';
+  }
+}
