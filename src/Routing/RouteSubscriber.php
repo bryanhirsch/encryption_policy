@@ -7,10 +7,10 @@
 
 namespace Drupal\encryption_policy\Routing;
 
+use Drupal\Core\Routing\RouteProvider;
 use Drupal\Core\Routing\RouteSubscriberBase;
-// use  \Drupal\Core\Routing\RouteProvider;
-use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\Route;
+use Symfony\Component\Routing\RouteCollection;
 
 /**
  * Class RouteSubscriber.
@@ -21,13 +21,9 @@ use Symfony\Component\Routing\Route;
 class RouteSubscriber extends RouteSubscriberBase {
   private $routeProvider;
 
-  // @TODO Use dependency injection. Then use RouteProvider::getRoutesByPattern() to get path in alter routes below.
-  // private function __construct(RouteProvider $routeProvider) {
-  public function __construct() {
-    $routeProvider = \Drupal::service('router.route_provider');
-    $this->routeProvider = $routeProvider;
+  public function __construct(RouteProvider $route_provider) {
+    $this->routeProvider = $route_provider;
   }
-  // */
 
   /**
    * {@inheritdoc}
