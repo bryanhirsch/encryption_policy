@@ -34,21 +34,25 @@ function encryption_policy_theme() {
 
 /**
  * Implements hook_menu_links_discovered_alter.
+ *
+ * Set parent for admin menu link provided by encryption_policy.links.menu.yml dynamically.
+ * This is done dynamically because password_policy module creates an
+ * '/admin/config/security' route. So it's possible to end up with two (or more)
+ * Security groupings under Admin >> Config which is awkward and confusing.
  */
 function encryption_policy_menu_links_discovered_alter(&$links) {
-  // If password_policy module exists, consolidate admin links under a single Security grouping.
-  if (isset($links['password_policy.admin_index'])) {
-    $links['encryption_policy.admin']['parent'] = 'password_policy.admin_index';
-  }
-  else {
+  $parent = isset($links['password_policy.admin_index']) ? 'password_policy.admin_index' : 'encryption_policy.admin_index';
+
+  if ($parent == 'encryption_policy.admin_index') {
+    // This route is conditionally created if '/admin/config/security' is not being provided by any other module.
+    // See \Drupa\encryption_policy\Routing\RouteSubscriber::alterRoutes().
     $links['encryption_policy.admin_index'] = array(
-      'title' => 'Security',
-      'description' => 'Configuring security settings',
-      'parent' => 'system.admin_config',
-      // This route is conditionally created if '/admin/config/security' is not being provided by any other module.
-      // See \Drupa\encryption_policy\Routing\RouteSubscriber::alterRoutes().
-      'route_name' => 'encryption_policy.admin_index',
+        'title' => 'Security',
+        'description' => 'Configuring security settings',
+        'parent' => 'system.admin_config',
+        'route_name' => 'encryption_policy.admin_index',
     );
-    $links['encryption_policy.admin']['parent'] = 'encryption_policy.admin_index';
   }
+
+  $links['encryption_policy.admin']['parent'] = $parent;
 }
