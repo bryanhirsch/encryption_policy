@@ -1,11 +1,4 @@
-#encryption_policy.admin_index:
-#  title: Security
-#  description: 'Configuring security settings'
-#  parent: system.admin_config
-#  route_name: encryption_policy.admin_index
-
 encryption_policy.admin:
   title: 'Encryption Policy'
   description: 'Create encryption policies'
-#  parent: encryption_policy.admin_index
   route_name: encryption_policy.admin

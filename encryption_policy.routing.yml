@@ -1,11 +1,3 @@
-#encryption_policy.admin_index:
-#  path: '/admin/config/security'
-#  defaults:
-#    _controller: '\Drupal\system\Controller\SystemController::systemAdminMenuBlockPage'
-#    _title: 'Security'
-#  requirements:
-#    _permission: 'access administration pages'
-
 encryption_policy.admin:
   path: '/admin/config/security/encryption-policy'
   defaults:

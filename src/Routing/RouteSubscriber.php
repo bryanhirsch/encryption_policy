@@ -36,7 +36,8 @@ class RouteSubscriber extends RouteSubscriberBase {
 
     // Check if some other module (e.g. password_policy) has already provided /admin/config/security.
     if ($this->pathExists('/admin/config/security')) {
-      $collection->remove('enryption_policy.admin_index');
+      // Our work is done.
+      return;
     }
 
     // Provide security "home" page.

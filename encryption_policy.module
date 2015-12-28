@@ -37,8 +37,18 @@ function encryption_policy_theme() {
  */
 function encryption_policy_menu_links_discovered_alter(&$links) {
   // If password_policy module exists, consolidate admin links under a single Security grouping.
-  if (\Drupal::moduleHandler()->moduleExists('password_policy')) {
+  if (isset($links['password_policy.admin_index'])) {
     $links['encryption_policy.admin']['parent'] = 'password_policy.admin_index';
-    unset($links['encryption_policy.admin_index']);
+  }
+  else {
+    $links['encryption_policy.admin_index'] = array(
+      'title' => 'Security',
+      'description' => 'Configuring security settings',
+      'parent' => 'system.admin_config',
+      // This route is conditionally created if '/admin/config/security' is not being provided by any other module.
+      // See \Drupa\encryption_policy\Routing\RouteSubscriber::alterRoutes().
+      'route_name' => 'encryption_policy.admin_index',
+    );
+    $links['encryption_policy.admin']['parent'] = 'encryption_policy.admin_index';
   }
 }
