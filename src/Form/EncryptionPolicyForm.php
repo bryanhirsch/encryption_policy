@@ -20,18 +20,6 @@ use Drupal\Core\Url;
 class EncryptionPolicyForm extends ConfigFormBase {
 
   /**
-   * Array listing ciphers.
-   */
-  private $ciphers;
-
-  /**
-   *
-   */
-  private $whitelistedCiphers;
-  private $blacklistedCiphers;
-  private $serverSideCiphers;
-
-  /**
    * Constructs an EncryptionPolicyForm object.
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
