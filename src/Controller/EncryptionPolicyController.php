@@ -22,15 +22,12 @@ class EncryptionPolicyController extends ControllerBase {
    *   Renderable array
    */
   public function index() {
-    return [
-        '#type' => 'markup',
-        '#markup' => $this->t('hello world'),
-        '#attached' => array(
-          'library' => array(
-            'encryption_policy/encryption-policy',
-          ),
-        ),
-    ];
+   $build = array();
+
+   $build['encryption_policy_index']['#theme'] = 'encryption_policy_page';
+   $build['encryption_policy_index']['#attached']['library'][] = 'encryption_policy/encryption-policy';
+
+    return $build;
   }
 
 }

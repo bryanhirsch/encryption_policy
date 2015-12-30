@@ -27,9 +27,19 @@ function encryption_policy_help($route_name, RouteMatchInterface $route_match) {
  * Implements hook_theme().
  */
 function encryption_policy_theme() {
-  $theme = [];
-
-  return $theme;
+  $config = \Drupal::configFactory()->get('encryption_policy.settings');
+  return array(
+    'encryption_policy_page' => array(
+      'variables' => array(
+        'cipher_suites_available' => $config->get('cipher_suites_available'),
+        'cipher_suites_blacklist' => $config->get('cipher_suites_blacklist'),
+        'cipher_suites_whitelist' => $config->get('cipher_suites_whitelist'),
+        'show_cipher_suites_available' => $config->get('show_cipher_suites_available'),
+        'show_cipher_suites_blacklist' => $config->get('show_cipher_suites_blacklist'),
+        'show_cipher_suites_whitelist' => $config->get('show_cipher_suites_whitelist'),
+      ),
+    ),
+  );
 }
 
 /**
