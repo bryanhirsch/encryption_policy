@@ -558,13 +558,11 @@ class EncryptionPolicyForm extends ConfigFormBase {
   }
 
   private function getCipherSuitesBlackList() {
-    $ciphers = $this->config('encryption_policy.settings')->get('cipher_suites_blacklist');
-    return $this->settingsToArray($ciphers);
+    return $this->config('encryption_policy.settings')->get('cipher_suites_blacklist');
   }
 
   private function getCipherSuitesWhitelist() {
-    $ciphers = $this->config('encryption_policy.settings')->get('cipher_suites_whitelist');
-    return $this->settingsToArray($ciphers);
+    return $this->config('encryption_policy.settings')->get('cipher_suites_whitelist');
   }
 
   private function getShowCipherSuitesAvailable() {
