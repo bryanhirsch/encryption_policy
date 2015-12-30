@@ -47,13 +47,17 @@ class EncryptionPolicyForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    $cipher_suites_available = $this->settingsToString( $this->getCipherSuites() );
-    $cipher_suites_blacklist = $this->settingsToString( $this->getCipherSuitesBlacklist() );
-    $cipher_suites_whitelist = $this->settingsToString( $this->getCipherSuitesWhitelist() );
+    $config = $this->config('encryption_policy.settings');
 
-    $show_cipher_suites_available = $this->getShowCipherSuitesAvailable();
-    $show_cipher_suites_blacklist = $this->getShowCipherSuitesBlacklist();
-    $show_cipher_suites_whitelist = $this->getShowCipherSuitesWhitelist();
+    // Set up default values for textareas. Array items should be converted to line separated strings.
+    $cipher_suites_available = $this->settingsToString($this->getCipherSuites());
+    $cipher_suites_blacklist = $this->settingsToString($config->get('cipher_suites_blacklist'));
+    $cipher_suites_whitelist = $this->settingsToString($config->get('cipher_suites_whitelist'));
+
+    // Set up default values for checkbox form items.
+    $show_cipher_suites_available = $config->get('show_cipher_suites_available');
+    $show_cipher_suites_blacklist = $config->get('show_cipher_suites_blacklist');
+    $show_cipher_suites_whitelist = $config->get('show_cipher_suites_whitelist');
 
     // Define a list of cipher suites available on your server.
     $form['available'] = array(
@@ -151,24 +155,13 @@ class EncryptionPolicyForm extends ConfigFormBase {
    */
   private function getCipherSuites() {
     // Use a specific list of available server-side ciphers if we have this.
-    $cipher_suites_available = $this->getAvailableCipherSuites();
-    if (count($cipher_suites_available) > 0) {
+    $cipher_suites_available = $this->config('encryption_policy.settings')->get('cipher_suites_available');
+    if (!empty($cipher_suites_available) && count($cipher_suites_available) > 0) {
       return $cipher_suites_available;
     }
 
     // Otherwise use full list of TLS Ciphers.
     return $this->getAllTlsCipherSuites();
-  }
-
-  /**
-   * Return an array of available server-side cipher suites.
-   *
-   * @return array
-   *   Array is empty if no information is available.
-   */
-  private function getAvailableCipherSuites() {
-    $ciphers = $this->config('encryption_policy.settings')->get('cipher_suites_available');
-    return $this->settingsToArray($ciphers);
   }
 
   /**
@@ -543,26 +536,6 @@ class EncryptionPolicyForm extends ConfigFormBase {
       "TLS_DHE_DSS_EXPORT1024_WITH_RC4_56_SHA",
       "TLS_DHE_DSS_WITH_RC4_128_SHA", // 128-bit RC4, not 56-bit
     );
-  }
-
-  private function getCipherSuitesBlackList() {
-    return $this->config('encryption_policy.settings')->get('cipher_suites_blacklist');
-  }
-
-  private function getCipherSuitesWhitelist() {
-    return $this->config('encryption_policy.settings')->get('cipher_suites_whitelist');
-  }
-
-  private function getShowCipherSuitesAvailable() {
-    return $this->config('encryption_policy.settings')->get('show_cipher_suites_available');
-  }
-
-  private function getShowCipherSuitesBlacklist() {
-    return $this->config('encryption_policy.settings')->get('show_cipher_suites_blacklist');
-  }
-
-  private function getShowCipherSuitesWhitelist() {
-    return $this->config('encryption_policy.settings')->get('show_cipher_suites_whitelist');
   }
 
   /**
