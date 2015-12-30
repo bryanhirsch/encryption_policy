@@ -6,7 +6,7 @@ encryption_policy.admin:
   requirements:
     _permission: 'administer site configuration'
 
-encryption_policy.encryption_policy_controller:
+encryption_policy.encryption_policy_index:
   path: '/encryption-policy'
   defaults:
     _controller: '\Drupal\encryption_policy\Controller\EncryptionPolicyController::index'

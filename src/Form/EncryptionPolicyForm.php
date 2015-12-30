@@ -10,6 +10,7 @@ namespace Drupal\encryption_policy\Form;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Url;
 
 /**
  * Class EncryptionPolicyForm.
@@ -62,6 +63,10 @@ class EncryptionPolicyForm extends ConfigFormBase {
     $cipher_suites_blacklist = $this->settingsToString( $this->getCipherSuitesBlacklist() );
     $cipher_suites_whitelist = $this->settingsToString( $this->getCipherSuitesWhitelist() );
 
+    $show_cipher_suites_available = $this->getShowCipherSuitesAvailable();
+    $show_cipher_suites_blacklist = $this->getShowCipherSuitesBlacklist();
+    $show_cipher_suites_whitelist = $this->getShowCipherSuitesWhitelist();
+
     // Define a list of cipher suites available on your server.
     $form['available'] = array(
       '#type' => 'details',
@@ -113,6 +118,35 @@ class EncryptionPolicyForm extends ConfigFormBase {
       '#type' => 'textarea',
       '#default_value' => $cipher_suites_whitelist,
       '#title' => t('Options'),
+    );
+
+    // Enable administrator to configure display of public-facing /encryption-policy page.
+    $link = Url::fromRoute('encryption_policy.encryption_policy_index');
+    $form['encryption_policy'] = array(
+      '#type' => 'details',
+      '#title' => t('Encryption Policy'),
+      '#description' => t('Configure how encryption policy is explained to end-users here: @link', array(
+        '@link' => \Drupal::l('/encryption-policy', $link),
+      )),
+      '#open' => TRUE,
+    );
+    $form['encryption_policy']['show_cipher_suites_available'] = array(
+        '#type' => 'checkbox',
+        '#title' => t('Show cipher suites available'),
+        '#description' => t('@TODO'),
+        '#default_value' => $show_cipher_suites_available,
+    );
+    $form['encryption_policy']['show_cipher_suites_blacklist'] = array(
+        '#type' => 'checkbox',
+        '#title' => t('Show cipher suites blacklist'),
+        '#description' => t('@TODO'),
+        '#default_value' => $show_cipher_suites_blacklist,
+    );
+    $form['encryption_policy']['show_cipher_suites_whitelist'] = array(
+        '#type' => 'checkbox',
+        '#title' => t('Show cipher suites whitelist'),
+        '#description' => t('@TODO'),
+        '#default_value' => $show_cipher_suites_whitelist,
     );
 
     return parent::buildForm($form, $form_state);
@@ -533,19 +567,51 @@ class EncryptionPolicyForm extends ConfigFormBase {
     return $this->settingsToArray($ciphers);
   }
 
+  private function getShowCipherSuitesAvailable() {
+    return $this->config('encryption_policy.settings')->get('show_cipher_suites_available');
+  }
+
+  private function getShowCipherSuitesBlacklist() {
+    return $this->config('encryption_policy.settings')->get('show_cipher_suites_blacklist');
+  }
+
+  private function getShowCipherSuitesWhitelist() {
+    return $this->config('encryption_policy.settings')->get('show_cipher_suites_whitelist');
+  }
+
+  /**
+   * @TODO add form validation.
+   *
+   * Errors:
+   * [ ] Do not allow a cipher to be listed on both blacklist and whitelist
+   *
+   * Warnings:
+   * [ ] Nothing in ciphersuites available box
+   */
+
   /**
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $values = $form_state->getValues();
-
     $variables = array('available', 'blacklist', 'whitelist');
+
+    // Store textarea input. Make each line an item in an array.
     foreach ($variables as $variable) {
       $key = 'cipher_suites_' . $variable;
       $settings = $this->settingsToArray($values[$key]);
       $this->config('encryption_policy.settings')
         ->set($key, $settings)
         ->save();
+    }
+
+    // Store checkbox input. Values are stored as 0 or 1.
+    foreach ($variables as $variable) {
+      $key = 'show_cipher_suites_' . $variable;
+      $value = $values[$key];
+      $this->config('encryption_policy.settings')
+          ->set($key, $value)
+          ->save();
     }
 
     parent::submitForm($form, $form_state);

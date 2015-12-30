@@ -16,7 +16,7 @@ use Drupal\Core\Controller\ControllerBase;
  */
 class EncryptionPolicyController extends ControllerBase {
   /**
-   * Index.
+   * Returns output for /encryption-policy.
    *
    * @return array
    *   Renderable array
