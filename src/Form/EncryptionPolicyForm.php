@@ -59,7 +59,7 @@ class EncryptionPolicyForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    $cipher_suites           = $this->settingsToString( $this->getCipherSuites() );
+    $cipher_suites_available = $this->settingsToString( $this->getCipherSuites() );
     $cipher_suites_blacklist = $this->settingsToString( $this->getCipherSuitesBlacklist() );
     $cipher_suites_whitelist = $this->settingsToString( $this->getCipherSuitesWhitelist() );
 
@@ -76,7 +76,7 @@ class EncryptionPolicyForm extends ConfigFormBase {
     $form['available']['cipher_suites_available'] = array(
       '#type' => 'textarea',
       '#title' => t('Cipher suites available on your server'),
-      '#default_value' => $cipher_suites,
+      '#default_value' => $cipher_suites_available,
       '#description' => t('Defaults to a full list of TLS cipher suites'),
     );
 
