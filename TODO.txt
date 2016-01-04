@@ -9,4 +9,8 @@
 [ ] SimpleTest tests
 [ ] PHPUnit tests
 
+Cli
+[ ] Provide Drush command to check cipher suites available
+[ ] Provide DrupalConsole command to check cipher suites available
+
 [ ] Revisit @TODO notes and update with user-facing language
