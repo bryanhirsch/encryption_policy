@@ -31,12 +31,7 @@ function encryption_policy_theme() {
   return array(
     'encryption_policy_page' => array(
       'variables' => array(
-        'cipher_suites_available' => $config->get('cipher_suites_available'),
-        'cipher_suites_blacklist' => $config->get('cipher_suites_blacklist'),
-        'cipher_suites_whitelist' => $config->get('cipher_suites_whitelist'),
-        'show_cipher_suites_available' => $config->get('show_cipher_suites_available'),
-        'show_cipher_suites_blacklist' => $config->get('show_cipher_suites_blacklist'),
-        'show_cipher_suites_whitelist' => $config->get('show_cipher_suites_whitelist'),
+        'var1' => NULL,
       ),
     ),
   );

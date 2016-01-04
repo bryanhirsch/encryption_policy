@@ -4,12 +4,7 @@
  * Default theme implementation of encryption policy page.
  *
  * Available variables:
- * - cipher_suites_available
- * - cipher_suites_blacklist
- * - cipher_suites_whitelist
- * - show_cipher_suites_available
- * - show_cipher_suites_blacklist
- * - show_cipher_suites_whitelist
+ * - var1
  *
  * @see template_preprocess()
  * @see template_preprocess_link_formatter_link_separate()
@@ -25,39 +20,5 @@
     </table>
 
 
-<h2>Encryption policy settings</h2>
-
-    <h3>cipher_suites_available<h3>
-    <ul>
-      {%  for available in cipher_suites_available %}
-        <li>{{ available }}</li>
-      {%  else %}
-        <li>no information available</li>
-      {% endfor %}
-    </ul>
-
-    <h3>cipher_suites_blacklist</h3>
-    <ul>
-      {% for blacklist in cipher_suites_blacklist %}
-        <li>{{ blacklist }}</li>
-      {%  else %}
-        <li>no information available</li>
-      {% endfor %}
-    </ul>
-
-    <h3>cipher_suites_whitelist</h3>
-    <ul>
-      {% for whitelist in cipher_suites_whitelist %}
-        <li>{{ whitelist }}</li>
-      {%  else %}
-        <li>no information available</li>
-      {% endfor %}
-    </ul>
-
-    <h3>Display settings</h3>
-    <ul>
-      <li>show_cipher_suites_available: {{ show_cipher_suites_available }}</li>
-      <li>show_cipher_suites_blacklist: {{ show_cipher_suites_blacklist }}</li>
-      <li>show_cipher_suites_whitelist: {{ show_cipher_suites_whitelist }}</li>
-    </ul>
-
+<h2>Variable test</h2>
+{{ var1 }}
