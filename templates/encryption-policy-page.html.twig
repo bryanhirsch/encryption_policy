@@ -31,6 +31,8 @@
     <ul>
       {%  for available in cipher_suites_available %}
         <li>{{ available }}</li>
+      {%  else %}
+        <li>no information available</li>
       {% endfor %}
     </ul>
 
@@ -38,6 +40,8 @@
     <ul>
       {% for blacklist in cipher_suites_blacklist %}
         <li>{{ blacklist }}</li>
+      {%  else %}
+        <li>no information available</li>
       {% endfor %}
     </ul>
 
@@ -45,6 +49,8 @@
     <ul>
       {% for whitelist in cipher_suites_whitelist %}
         <li>{{ whitelist }}</li>
+      {%  else %}
+        <li>no information available</li>
       {% endfor %}
     </ul>
 
