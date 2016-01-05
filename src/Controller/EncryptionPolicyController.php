@@ -30,6 +30,7 @@ class EncryptionPolicyController extends ControllerBase {
     $build['encryption_policy_index']['#var1'] = 'Hello World';
     $build['encryption_policy_index']['#attached']['library'][] = 'encryption_policy/encryption-policy';
 
+
     /**
      * Leverage core table theme function for three of the four tables provided on /encryption-policy.
      *
@@ -51,6 +52,10 @@ class EncryptionPolicyController extends ControllerBase {
       $show_key = 'show_cipher_suites_' . $key;
       $machine_name = 'cipher_suites_' . $key;
 
+      // Attach settings to drupalSettings.encryption_policy.$machine_name
+      $cipher_suites = $config->get($machine_name);
+      $build['encryption_policy_index']['#attached']['drupalSettings']['encryption_policy'][$machine_name] = $cipher_suites;
+
       // Determine if administrator has opted not to show these policy details to end users. If not, don't include
       // these details in the render array being built here.
       $show = $config->get($show_key);
@@ -58,7 +63,6 @@ class EncryptionPolicyController extends ControllerBase {
         continue;
       }
 
-      $cipher_suites = $config->get($machine_name);
       $build[$machine_name]['#theme'] = 'table';
       // $build[$machine_name]['#caption'] = 'testing 1 2 3'; // @TODO Add captions to make encryption policy easier for end users to understand.
       $build[$machine_name]['#header'] = array($name);
