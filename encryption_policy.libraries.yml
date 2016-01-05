@@ -4,3 +4,4 @@ encryption-policy:
     encryption_policy.js: {}
   dependencies:
     - core/drupalSettings
+    - core/drupal
