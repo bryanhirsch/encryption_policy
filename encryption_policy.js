@@ -24,9 +24,11 @@
       console.log('this.resultCipherSuites:');
       console.log(this.resultCipherSuites);
 
-      html = Drupal.theme.encryptionPolicyCheck(this.resultCipherSuites);
       el = document.getElementById("encryption-policy-browser-test");
-      el.innerHTML = html;
+      if (el != null) {
+          html = Drupal.theme.encryptionPolicyCheck(this.resultCipherSuites);
+          el.innerHTML = html;
+      }
   }
 
 

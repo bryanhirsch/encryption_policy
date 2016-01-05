@@ -61,3 +61,40 @@ function encryption_policy_menu_links_discovered_alter(&$links) {
 
   $links['encryption_policy.admin']['parent'] = $parent;
 }
+
+/**
+ * Implements hook_form_alter().
+ */
+function encryption_policy_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+  if (!$form_id == 'user_login_form') {
+    // We're only interested in modifying the login form. Our work here is done.
+    return;
+  }
+
+  $form['#attached']['library'][] = 'encryption_policy/encryption-policy';
+  $form['#attached']['drupalSettings'] = _encryption_policy_get_attached_drupal_settings();
+}
+
+/**
+ * Get drupalSettings to load for encryption_policy.js.
+ *
+ * @return array
+ */
+function _encryption_policy_get_attached_drupal_settings() {
+  $attached = array();
+
+  // @TODO use dependency injection.
+  // @TODO This is duplicative of code in EncryptionPolicyController::index(). DRY it out.
+  $config = \Drupal::configFactory()->get('encryption_policy.settings');
+  $cipher_suites_available = $config->get('cipher_suites_available');
+  $cipher_suites_blacklist = $config->get('cipher_suites_blacklist');
+  $cipher_suites_whitelist = $config->get('cipher_suites_whitelist');
+
+  $attached['encryption_policy'] = array(
+    'cipher_suites_available' => $cipher_suites_available,
+    'cipher_suites_blacklist' => $cipher_suites_blacklist,
+    'cipher_suites_whitelist' => $cipher_suites_whitelist,
+  );
+
+  return $attached;
+}
