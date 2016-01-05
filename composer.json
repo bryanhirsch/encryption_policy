@@ -1,0 +1,14 @@
+{
+  "name": "drupal/encryption_policy",
+  "type": "drupal-module",
+  "description": "Define and enforce encryption standards for your website.",
+  "keywords": ["Drupal"],
+  "license": "GPL-2.0+",
+  "homepage": "http://drupal.org/project/encryption_policy",
+  "minimum-stability": "dev",
+  "support": {
+    "issues": "http://drupal.org/project/issues/encryption_policy",
+    "source": "http://cgit.drupalcode.org/encryption_policy"
+  },
+  "require": { }
+}

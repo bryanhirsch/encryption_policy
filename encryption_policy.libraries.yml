@@ -1,0 +1,7 @@
+encryption-policy:
+  version: 1.x
+  js:
+    encryption_policy.js: {}
+  dependencies:
+    - core/drupalSettings
+    - core/drupal

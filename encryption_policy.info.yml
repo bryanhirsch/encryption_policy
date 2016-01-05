@@ -1,0 +1,5 @@
+name: Encryption Policy
+type: module
+description: Define and enforce encryption standards for your website.
+core: 8.x
+package: Security

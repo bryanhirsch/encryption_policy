@@ -1,0 +1,6 @@
+services:
+  encryption_policy.route_subscriber:
+    class: Drupal\encryption_policy\Routing\RouteSubscriber
+    arguments: ['@router.route_provider']
+    tags:
+      - { name: event_subscriber }

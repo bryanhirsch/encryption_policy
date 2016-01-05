@@ -1,0 +1,16 @@
+[ ] Attach JavaScript to user login form
+[ ] Add JavaScript-side test at login time, takeover form to prevent login if browser doesn't provide required encryption
+[ ] Provide admin-defined takeover message in login block
+[ ] Disable login form fields via form alter
+
+[x] Add /encryption-policy page with documentation of policy and info to user about their browser
+
+[ ] Behat tests
+[ ] SimpleTest tests
+[ ] PHPUnit tests
+
+Cli
+[ ] Provide Drush command to check cipher suites available
+[ ] Provide DrupalConsole command to check cipher suites available
+
+[ ] Revisit @TODO notes and update with user-facing language

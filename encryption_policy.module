@@ -1,0 +1,100 @@
+<?php
+
+/**
+ * @file
+ * Contains encryption_policy.module..
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function encryption_policy_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the encryption_policy module.
+    case 'help.page.encryption_policy':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Define and enforce encryption standards for your website.') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function encryption_policy_theme() {
+  $config = \Drupal::configFactory()->get('encryption_policy.settings');
+  return array(
+    'encryption_policy_page' => array(
+      'variables' => array(
+        'encryption_policy_overview' => NULL,
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_menu_links_discovered_alter.
+ *
+ * Set parent for admin menu link provided by encryption_policy.links.menu.yml dynamically.
+ * This is done dynamically because password_policy module creates an
+ * '/admin/config/security' route. So it's possible to end up with two (or more)
+ * Security groupings under Admin >> Config which is awkward and confusing.
+ */
+function encryption_policy_menu_links_discovered_alter(&$links) {
+  $parent = isset($links['password_policy.admin_index']) ? 'password_policy.admin_index' : 'encryption_policy.admin_index';
+
+  if ($parent == 'encryption_policy.admin_index') {
+    // This route is conditionally created if '/admin/config/security' is not being provided by any other module.
+    // See \Drupa\encryption_policy\Routing\RouteSubscriber::alterRoutes().
+    $links['encryption_policy.admin_index'] = array(
+        'title' => 'Security',
+        'description' => 'Configuring security settings',
+        'parent' => 'system.admin_config',
+        'route_name' => 'encryption_policy.admin_index',
+    );
+  }
+
+  $links['encryption_policy.admin']['parent'] = $parent;
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function encryption_policy_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+  if (!$form_id == 'user_login_form') {
+    // We're only interested in modifying the login form. Our work here is done.
+    return;
+  }
+
+  $form['#attached']['library'][] = 'encryption_policy/encryption-policy';
+  $form['#attached']['drupalSettings'] = _encryption_policy_get_attached_drupal_settings();
+}
+
+/**
+ * Get drupalSettings to load for encryption_policy.js.
+ *
+ * @return array
+ */
+function _encryption_policy_get_attached_drupal_settings() {
+  $attached = array();
+
+  // @TODO use dependency injection.
+  // @TODO This is duplicative of code in EncryptionPolicyController::index(). DRY it out.
+  $config = \Drupal::configFactory()->get('encryption_policy.settings');
+  $cipher_suites_available = $config->get('cipher_suites_available');
+  $cipher_suites_blacklist = $config->get('cipher_suites_blacklist');
+  $cipher_suites_whitelist = $config->get('cipher_suites_whitelist');
+
+  $attached['encryption_policy'] = array(
+    'cipher_suites_available' => $cipher_suites_available,
+    'cipher_suites_blacklist' => $cipher_suites_blacklist,
+    'cipher_suites_whitelist' => $cipher_suites_whitelist,
+  );
+
+  return $attached;
+}

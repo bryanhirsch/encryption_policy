@@ -1,0 +1,4 @@
+encryption_policy.admin:
+  title: 'Encryption Policy'
+  description: 'Create encryption policies'
+  route_name: encryption_policy.admin

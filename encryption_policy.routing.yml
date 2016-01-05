@@ -1,0 +1,15 @@
+encryption_policy.admin:
+  path: '/admin/config/security/encryption-policy'
+  defaults:
+    _form: '\Drupal\encryption_policy\Form\EncryptionPolicyForm'
+    _title: 'Encryption Policy'
+  requirements:
+    _permission: 'administer site configuration'
+
+encryption_policy.encryption_policy_index:
+  path: '/encryption-policy'
+  defaults:
+    _controller: '\Drupal\encryption_policy\Controller\EncryptionPolicyController::index'
+    _title: 'Encryption Policy'
+  requirements:
+    _permission: 'access content'
