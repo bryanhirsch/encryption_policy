@@ -23,6 +23,7 @@ class EncryptionPolicyController extends ControllerBase {
    */
   public function index() {
     $build = array();
+    // @TODO Figure out how to pass this in via dependency injection.
     $config = \Drupal::configFactory()->get('encryption_policy.settings');
 
     $build['encryption_policy_index']['#theme'] = 'encryption_policy_page';
@@ -59,6 +60,7 @@ class EncryptionPolicyController extends ControllerBase {
 
       $cipher_suites = $config->get($machine_name);
       $build[$machine_name]['#theme'] = 'table';
+      // $build[$machine_name]['#caption'] = 'testing 1 2 3'; // @TODO Add captions to make encryption policy easier for end users to understand.
       $build[$machine_name]['#header'] = array($name);
       foreach ($cipher_suites as $cipher_suite) {
         if (!empty($cipher_suite)) {
