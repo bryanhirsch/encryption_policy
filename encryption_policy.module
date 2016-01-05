@@ -31,7 +31,7 @@ function encryption_policy_theme() {
   return array(
     'encryption_policy_page' => array(
       'variables' => array(
-        'var1' => NULL,
+        'encryption_policy_overview' => NULL,
       ),
     ),
   );

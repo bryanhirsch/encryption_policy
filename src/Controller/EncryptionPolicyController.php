@@ -27,7 +27,7 @@ class EncryptionPolicyController extends ControllerBase {
     $config = \Drupal::configFactory()->get('encryption_policy.settings');
 
     $build['encryption_policy_index']['#theme'] = 'encryption_policy_page';
-    $build['encryption_policy_index']['#var1'] = 'Hello World';
+    $build['encryption_policy_index']['#encryption_policy_overview'] = $config->get('encryption_policy_overview');
     $build['encryption_policy_index']['#attached']['library'][] = 'encryption_policy/encryption-policy';
 
 

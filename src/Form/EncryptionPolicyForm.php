@@ -7,8 +7,8 @@
 
 namespace Drupal\encryption_policy\Form;
 
-use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
 
@@ -53,6 +53,8 @@ class EncryptionPolicyForm extends ConfigFormBase {
     $cipher_suites_available = $this->settingsToString($this->getCipherSuites());
     $cipher_suites_blacklist = $this->settingsToString($config->get('cipher_suites_blacklist'));
     $cipher_suites_whitelist = $this->settingsToString($config->get('cipher_suites_whitelist'));
+    // This one is not stored as an array. Nothing needs to be prepared here.
+    $encryption_policy_overview = $config->get('encryption_policy_overview');
 
     // Set up default values for checkbox form items.
     $show_cipher_suites_available = $config->get('show_cipher_suites_available');
@@ -113,14 +115,25 @@ class EncryptionPolicyForm extends ConfigFormBase {
     );
 
     // Enable administrator to configure display of public-facing /encryption-policy page.
-    $link = Url::fromRoute('encryption_policy.encryption_policy_index');
+    $url = Url::fromRoute('encryption_policy.encryption_policy_index');
     $form['encryption_policy'] = array(
       '#type' => 'details',
       '#title' => t('Encryption Policy'),
-      '#description' => t('Configure how encryption policy is explained to end-users here: @link', array(
-        '@link' => \Drupal::l('/encryption-policy', $link),
+      '#description' => t('Configure how encryption policy is explained to end-users here: <a href=":url">@text</a>', array(
+        ':url' => $url->toString(),
+        '@text' => $url->toString(),
       )),
       '#open' => TRUE,
+    );
+    $url = Url::fromRoute('encryption_policy.encryption_policy_index');
+    $form['encryption_policy']['encryption_policy_overview'] = array(
+      '#type' => 'textarea',
+      '#title' => t('Overview of encryption policy'),
+      '#default_value' => $encryption_policy_overview,
+      '#description' => t('To be displayed at top of <a href=":url">@text</a>', array(
+        ':url' => $url->toString(),
+        '@text' => $url->toString(),
+      )),
     );
     $form['encryption_policy']['show_cipher_suites_available'] = array(
         '#type' => 'checkbox',
@@ -572,6 +585,11 @@ class EncryptionPolicyForm extends ConfigFormBase {
           ->set($key, $value)
           ->save();
     }
+
+    // Store encryption_policy_overview.
+    $this->config('encryption_policy.settings')
+      ->set('encryption_policy_overview', $values['encryption_policy_overview'])
+      ->save();
 
     parent::submitForm($form, $form_state);
   }
