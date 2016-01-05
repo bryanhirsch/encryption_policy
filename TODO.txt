@@ -3,7 +3,7 @@
 [ ] Provide admin-defined takeover message in login block
 [ ] Disable login form fields via form alter
 
-[ ] Add /encryption-policy page with documentation of policy and info to user about their browser
+[x] Add /encryption-policy page with documentation of policy and info to user about their browser
 
 [ ] Behat tests
 [ ] SimpleTest tests
